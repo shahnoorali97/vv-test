@@ -19,7 +19,7 @@ It should be remembered that the tasks are a tool for evaluating technical and p
 If some task is not progressing, it may be preferable to submit a partial solution with a description of the attempt at solution, than spend excessive time on forcing a complete solution.
 
 ## Prerequisites
-Clone the project: ```git clone https://github.com/llaakson-vv/vv-test.git```, create a Python virtual environment, and install dependencies: ```pip install -r requirements```
+Clone the project: ```git clone https://github.com/llaakson-vv/vv-test.git```, extract the data folder: ```tar -xf data.tar.xz```, create a Python virtual environment, and install dependencies: ```pip install -r requirements```
 
 ## Task 1:
 
