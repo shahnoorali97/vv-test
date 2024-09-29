@@ -17,9 +17,18 @@ from utils.models import ModelTask4
 from utils.data import create_task1_datasets
 
 
-def loss(input, target):
-    pass
+# Custom loss function with logit size penalty
+def loss(outputs, labels, alpha=0.01):
+    # Cross-entropy loss (for classification)
+    ce_loss = torch.nn.functional.cross_entropy(outputs, labels)
 
+    # Regularization based on logit size (L2 norm of logits)
+    logit_penalty = torch.norm(outputs, p=2)
+
+    # Combined loss with weighting factor alpha
+    total_loss = ce_loss + alpha * logit_penalty
+
+    return total_loss
 
 training_dataloader, test_dataloader = create_task1_datasets()
 
@@ -41,7 +50,8 @@ for epoch in tqdm(range(epochs)):
 
         outputs = model(inputs)
 
-        l = loss(outputs, labels)
+        # Use custom loss function
+        l = loss(outputs, labels, alpha=0.01)
         l.backward()
 
         training_loss.append(l.detach())
@@ -68,7 +78,7 @@ for epoch in tqdm(range(epochs)):
                     / len(labels)
                 )
 
-                test_loss.append(loss(outputs, labels))
+                test_loss.append(evaluation_loss(outputs, labels).item())
 
             message = (
                 f"\nEpoch: {epoch}\nMean training loss: {np.mean(training_loss)}"
