@@ -40,8 +40,8 @@ def create_task1_datasets():
     train_dataset = datasets.ImageFolder(train_dir, transform=train_transforms)
     test_dataset = datasets.ImageFolder(test_dir, transform=test_transforms)
 
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
     
     return train_loader, test_loader
 
