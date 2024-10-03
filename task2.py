@@ -16,15 +16,16 @@ from tqdm import tqdm
 import torch.optim as optim
 from torch.optim.lr_scheduler import CosineAnnealingLR, ReduceLROnPlateau
 from torch.optim.swa_utils import AveragedModel, SWALR
+from torchvision import transforms 
 
 from utils.models import ModelTask1
-from utils.data import create_task1_datasets
+from utils.data import create_task2_datasets
 
 # Set paths for model saving
 checkpoint_dir = './checkpoints'
 os.makedirs(checkpoint_dir, exist_ok=True)
 
-training_dataloader, test_dataloader = create_task1_datasets()
+training_dataloader, test_dataloader = create_task2_datasets()
 
 model = ModelTask1()
 optimizer = optim.AdamW(model.parameters(), lr=0.0005, weight_decay=1e-4)

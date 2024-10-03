@@ -14,36 +14,12 @@
 
 import torch
 import torchvision
+from collections import Counter
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from torchvision.models import resnet18, ResNet18_Weights
-
-# Data augmentation for training
-train_transforms = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.Grayscale(num_output_channels=3),
-    transforms.RandomHorizontalFlip(),
-    transforms.ToTensor()
-])
-
-test_transforms = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.Grayscale(num_output_channels=3),
-    transforms.ToTensor()
-])
-
-def create_task1_datasets():
-    train_dir = 'data/task1/train'
-    test_dir = 'data/task1/test'
-    
-    train_dataset = datasets.ImageFolder(train_dir, transform=train_transforms)
-    test_dataset = datasets.ImageFolder(test_dir, transform=test_transforms)
-
-    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
-    
-    return train_loader, test_loader
+from utils.data import create_task1_datasets # create and return two dataloaders
 
 # Create dataloaders
 training_dataloader, test_dataloader = create_task1_datasets()
@@ -57,7 +33,12 @@ model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
 optimizer = torch.optim.SGD(model.parameters(), lr=0.005, momentum=0.9)
 loss_fn = torch.nn.CrossEntropyLoss()
 
-# Training function with print statements
+# Inspect the shape of a batch to ensure it matches the model's expectations
+data_iter = iter(training_dataloader)
+images, labels = next(data_iter)
+print(f'Image batch shape: {images.shape}')  # Should be [batch_size, 3, 224, 224]
+
+# Training function
 def train_model(model, train_loader, val_loader, optimizer, loss_fn, epochs=5):
     for epoch in range(epochs):
         print(f'Starting epoch {epoch+1}/{epochs}')
@@ -92,3 +73,16 @@ plt.imshow(grid.permute(1, 2, 0))
 plt.title('Sample Training Images')
 plt.axis('off')
 plt.show()
+
+
+#def create_task1_datasets():
+    #train_dir = 'data/task1/train'
+    #test_dir = 'data/task1/test'
+    
+    #train_dataset = datasets.ImageFolder(train_dir, transform=train_transforms)
+    #est_dataset = datasets.ImageFolder(test_dir, transform=test_transforms)
+
+    #train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+    #test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+    
+    #return train_loader, test_loader

@@ -11,7 +11,7 @@
 #
 # With an improved training set, the model can be expected to reach validation accuracy of 0.84 and above.
 
-
+import numpy as np
 import torch
 from torchvision import transforms
 from torch.utils.data import WeightedRandomSampler
@@ -21,6 +21,7 @@ from torch.utils.data import DataLoader
 from utils.models import ModelTask3
 from utils.train import train_model
 from utils.data import create_task3_datasets
+from torch.nn.functional import softmax
 
 # Data Augmentation using transforms
 augmentations = transforms.Compose([
@@ -48,9 +49,9 @@ model = ModelTask3()
 optimizer = torch.optim.SGD(model.parameters(), lr=0.005, momentum=0.9)
 
 
-train_model(model, training_dataloader, test_dataloader, optimizer, loss, epochs=100)
+train_model(model, training_dataloader, test_dataloader, optimizer, loss, epochs=20)
 
-# ------------------------------ train.py ---------------------------------
+# ------------------------------ training ---------------------------------
 
 def validate(model, validation_loader, criterion, device):
     model.eval()  # Set model to evaluation mode

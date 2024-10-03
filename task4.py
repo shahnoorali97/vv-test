@@ -14,7 +14,7 @@ import torch
 from tqdm import tqdm
 
 from utils.models import ModelTask4
-from utils.data import create_task1_datasets
+from utils.data import create_task2_datasets
 
 
 # Custom loss function with logit size penalty
@@ -30,7 +30,7 @@ def loss(outputs, labels, alpha=0.01):
 
     return total_loss
 
-training_dataloader, test_dataloader = create_task1_datasets()
+training_dataloader, test_dataloader = create_task2_datasets()
 
 model = ModelTask4()
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-3, momentum=0.9)
